@@ -12,34 +12,27 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+describe('Testes de Integração - Seção 1: Users e Login', () => {
 
-  // let chaiHttpResponse: Response;
+  let chaiHttpResponse: Response;
+  it('Endpoint /login - verificar que é possível realizar um login com sucesso', async () => {
+      chaiHttpResponse = await chai.request(app).post('/login').send({ 
+          email:"admin@admin.com", 
+          password:"secret_admin" 
+      });
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse).to.be.json;
+      expect(chaiHttpResponse.body).to.have.property('token');
+  });
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
-
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+  it('Endpoint /login - verificar que não é possível realizar um login com email inválido', async () => {
+      chaiHttpResponse = await chai.request(app).post('/login').send({ 
+          email:"ad", 
+          password:"secret_admin" 
+      });
+      expect(chaiHttpResponse).to.have.status(400);
+      expect(chaiHttpResponse).to.be.json;
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.equal('Incorrect email or password');
   });
 });
