@@ -1,4 +1,5 @@
 import { compareSync } from 'bcryptjs';
+import * as jsonwebtoken from 'jsonwebtoken';
 import User from '../database/models/User';
 import GenerateToken from '../utils/jwt';
 import { ILogin } from '../interfaces/login.interface';
@@ -8,6 +9,7 @@ import loginValidation from './validations/loginValidation';
 export default class AuthService {
   public userModel = User;
   public validToken = new GenerateToken();
+  public jwt = jsonwebtoken;
 
   public async login(loginBody: ILogin) {
     const { email, password } = loginBody;
@@ -31,5 +33,15 @@ export default class AuthService {
 
     const token = this.validToken.token(user);
     return { token };
+  }
+
+  public async getRole(token: string) {
+    const result = this.jwt.verify(token, process.env.JWT_SECRET as string) as ILogin;
+    const { email } = result;
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      throw new HttpException(404, 'User not found');
+    }
+    return user.dataValues.role;
   }
 }
