@@ -13,4 +13,15 @@ export default class MatchService {
     });
     return matches;
   }
+
+  public getMatchesByQuery(inProgress: boolean) {
+    const matches = this.matchModel.findAll({
+      where: { inProgress },
+      include: [
+        { model: Team, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: Team, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ],
+    });
+    return matches;
+  }
 }
