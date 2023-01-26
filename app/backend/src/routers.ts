@@ -25,5 +25,7 @@ routers.get('/matches', (req: Request, res: Response) => matchController.getAll(
 routers
   .post('/matches', authMiddleware, (req: Request, res: Response) =>
     matchController.create(req, res));
-
+routers
+  .patch('/matches/:id/finish', (req: Request<{ id: number }>, res: Response) =>
+    matchController.update(req, res));
 export default routers;
