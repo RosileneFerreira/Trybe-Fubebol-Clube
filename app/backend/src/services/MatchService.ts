@@ -1,5 +1,6 @@
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
+import { IMatch } from '../interfaces/match.interface';
 
 export default class MatchService {
   public matchModel = Match;
@@ -23,5 +24,16 @@ export default class MatchService {
       ],
     });
     return matches;
+  }
+
+  public createMatch(match: Omit<IMatch, 'id'>) {
+    const newMatch = this.matchModel.create({
+      homeTeamId: match.homeTeamId,
+      homeTeamGoals: match.homeTeamGoals,
+      awayTeamId: match.awayTeamId,
+      awayTeamGoals: match.awayTeamGoals,
+      inProgress: true,
+    });
+    return newMatch;
   }
 }

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { IMatch } from '../interfaces/match.interface';
 import MatchService from '../services/MatchService';
 
 class MatchController {
@@ -12,12 +13,17 @@ class MatchController {
     const { inProgress } = req.query;
 
     if (!inProgress) {
-      const teams = await this.matchService.getMatches();
-      return res.status(200).json(teams);
+      const matches = await this.matchService.getMatches();
+      return res.status(200).json(matches);
     }
 
-    const teamsByQuery = await this.matchService.getMatchesByQuery(inProgress === 'true');
-    return res.status(200).json(teamsByQuery);
+    const matchesByQuery = await this.matchService.getMatchesByQuery(inProgress === 'true');
+    return res.status(200).json(matchesByQuery);
+  }
+
+  public async create(req: Request<object, object, IMatch>, res: Response) {
+    const match = await this.matchService.createMatch(req.body);
+    return res.status(201).json(match);
   }
 }
 
