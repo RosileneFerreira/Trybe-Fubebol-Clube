@@ -1,6 +1,7 @@
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
 import { IMatch } from '../interfaces/match.interface';
+import HttpException from '../utils/http.exception';
 
 export default class MatchService {
   public matchModel = Match;
@@ -27,6 +28,10 @@ export default class MatchService {
   }
 
   public createMatch(match: Omit<IMatch, 'id'>) {
+    if (match.homeTeamId === match.awayTeamId) {
+      throw new HttpException(422, 'It is not possible to create a match with two equal teams');
+    }
+
     const newMatch = this.matchModel.create({
       homeTeamId: match.homeTeamId,
       homeTeamGoals: match.homeTeamGoals,
@@ -44,6 +49,6 @@ export default class MatchService {
         where: { id },
       },
     );
-    return { error: '', message: 'Finished' };
+    return { message: 'Finished' };
   }
 }
