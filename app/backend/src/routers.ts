@@ -28,4 +28,8 @@ routers
 routers
   .patch('/matches/:id/finish', (req: Request<{ id: number }>, res: Response) =>
     matchController.update(req, res));
+routers
+  .patch('/matches/:id', (req: Request<{ id: number }>, res: Response) =>
+    matchController.updateMatchScore(req, res));
+
 export default routers;

@@ -49,12 +49,22 @@ export default class MatchService {
   }
 
   public async updateMatch(id: number) {
-    await this.matchModel.update(
+    const updatedMatch = await this.matchModel.update(
       { inProgress: false },
       {
         where: { id },
       },
     );
-    return { message: 'Finished' };
+    return updatedMatch;
+  }
+
+  public async updateResultMatch(id: number, match: Omit<IMatch, 'id'>) {
+    const updatedResult = await this.matchModel.update(
+      match,
+      {
+        where: { id },
+      },
+    );
+    return updatedResult;
   }
 }

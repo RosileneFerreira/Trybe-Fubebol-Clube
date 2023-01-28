@@ -29,8 +29,15 @@ class MatchController {
   public async update(req: Request<{ id: number }, object, IMatch>, res: Response) {
     const { id } = req.params;
 
-    const isFinished = await this.matchService.updateMatch(id);
-    return res.status(200).json(isFinished);
+    await this.matchService.updateMatch(id);
+    return res.status(200).json({ message: 'Finished' });
+  }
+
+  public async updateMatchScore(req: Request<{ id: number }, object, IMatch>, res: Response) {
+    const { id } = req.params;
+
+    await this.matchService.updateResultMatch(id, req.body);
+    return res.status(200).json({ message: 'Match score changed' });
   }
 }
 
