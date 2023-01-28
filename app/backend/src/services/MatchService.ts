@@ -27,12 +27,18 @@ export default class MatchService {
     return matches;
   }
 
-  public createMatch(match: Omit<IMatch, 'id'>) {
+  public async createMatch(match: Omit<IMatch, 'id'>) {
     if (match.homeTeamId === match.awayTeamId) {
       throw new HttpException(422, 'It is not possible to create a match with two equal teams');
     }
 
-    const newMatch = this.matchModel.create({
+    const checkHomeTeam = await this.matchModel.findByPk(match.homeTeamId);
+    const checkAwayTeam = await this.matchModel.findByPk(match.awayTeamId);
+    if (!checkHomeTeam || !checkAwayTeam) {
+      throw new HttpException(404, 'There is no team with such id!');
+    }
+
+    const newMatch = await this.matchModel.create({
       homeTeamId: match.homeTeamId,
       homeTeamGoals: match.homeTeamGoals,
       awayTeamId: match.awayTeamId,
