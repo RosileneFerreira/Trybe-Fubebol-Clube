@@ -26,7 +26,7 @@ export default class GenerateToken {
       );
       return decoded;
     } catch (error) {
-      throw new HttpException(401, 'Not authorized');
+      throw new HttpException(401, 'Token must be a valid token');
     }
   }
 }
