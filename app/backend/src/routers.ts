@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import 'express-async-errors';
 import AuthController from './controllers/AuthController';
+import LeaderboardController from './controllers/LeaderboardController';
 import MatchController from './controllers/MatchController';
 import TeamController from './controllers/TeamController';
 import authMiddleware from './middlewares/auth.middleware';
@@ -31,5 +32,10 @@ routers
 routers
   .patch('/matches/:id', (req: Request<{ id: number }>, res: Response) =>
     matchController.updateMatchScore(req, res));
+
+const leaderboardController = new LeaderboardController();
+routers
+  .get('/leaderboard/home', (req: Request, res: Response) =>
+    leaderboardController.leaderboardHome(req, res));
 
 export default routers;
