@@ -86,3 +86,19 @@ describe('Testes de Integração - Seção 3: Partidas', () => {
     expect(chaiHttpResponse).to.be.json;
   });
 });
+
+describe('Testes de Integração - Seção 4: Leaderboards (placares)', () => {
+  let chaiHttpResponse: Response;
+
+  it('Endpoint /leaderboard/home - verificar que é possível filtrar as classificações dos times da casa', async () => {
+    chaiHttpResponse = await chai.request(app).get('/leaderboard/home');
+    expect(chaiHttpResponse).to.have.status(200);
+    expect(chaiHttpResponse).to.be.json;
+  });
+
+  it('Endpoint /leaderboard/away - verificar que é possível filtrar as classificações dos times visitantes', async () => {
+    chaiHttpResponse = await chai.request(app).get('/leaderboard/away');
+    expect(chaiHttpResponse).to.have.status(200);
+    expect(chaiHttpResponse).to.be.json;
+  });
+});
