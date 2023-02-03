@@ -48,4 +48,15 @@ export default class LeaderboardService {
     );
     return this.sortLeaderboard(result);
   };
+
+  public leaderboardAway = async () => {
+    const teams = await this.teamService.getTeams();
+    const finishedMatches = await this.matchService.getMatchesByQuery(false);
+
+    const result = await Promise.all(
+      teams.map((team) =>
+        this.leaderboard.leaderboardAway(this.score, team, finishedMatches)),
+    );
+    return this.sortLeaderboard(result);
+  };
 }

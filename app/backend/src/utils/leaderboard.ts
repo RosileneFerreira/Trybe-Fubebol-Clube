@@ -23,4 +23,25 @@ export default class Leaderboard {
     });
     return homeBoard;
   };
+
+  public leaderboardAway = (score: IScore, team: ITeam, matches: IMatch[]) => {
+    const awayBoard = { ...score };
+
+    matches.forEach((match) => {
+      if (match.awayTeamId === team.id) {
+        awayBoard.name = team.teamName;
+        awayBoard.totalGames += 1;
+        awayBoard.goalsFavor += match.awayTeamGoals;
+        awayBoard.goalsOwn += match.homeTeamGoals;
+        if (match.awayTeamGoals > match.homeTeamGoals) awayBoard.totalVictories += 1;
+        if (match.awayTeamGoals === match.homeTeamGoals) awayBoard.totalDraws += 1;
+        if (match.awayTeamGoals < match.homeTeamGoals) awayBoard.totalLosses += 1;
+        awayBoard.goalsBalance = awayBoard.goalsFavor - awayBoard.goalsOwn;
+        awayBoard.totalPoints = (awayBoard.totalVictories * 3) + awayBoard.totalDraws;
+        awayBoard.efficiency = ((awayBoard.totalPoints / (awayBoard.totalGames * 3)) * 100)
+          .toFixed(2);
+      }
+    });
+    return awayBoard;
+  };
 }

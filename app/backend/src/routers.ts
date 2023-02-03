@@ -37,5 +37,8 @@ const leaderboardController = new LeaderboardController();
 routers
   .get('/leaderboard/home', (req: Request, res: Response) =>
     leaderboardController.leaderboardHome(req, res));
+routers
+  .get('/leaderboard/away', (req: Request, res: Response) =>
+    leaderboardController.leaderboardAway(req, res));
 
 export default routers;
