@@ -20,14 +20,20 @@ O repositório conta com um arquivo docker-compose já configurado para maior co
 Siga os passos a seguir para ter a aplicação rodando em sua máquina.
 
 Clonando o repositório
-  git clone git@github.com:/trybe-futebol-clube.git
+  git clone git@github.com:RosileneFerreira/Trybe-Futebol-Clube.git
+
 Instalando as dependências
   cd trybe-futebol-clube
   npm run postinstall
+
 Subindo os containers e inicializando os serviços Em um novo terminal execute:
   npm run compose:up:dev
+
 Criando e populando o banco de dados
   docker exec -it app_backend bash
   npm run db:reset
+
 Pronto! O frontend está rodando localmente na porta 3000 e o backend na porta 3001
 Você pode configurar as variáveis de ambiente conforme o arquivo .env.exemple se desejar utilizar outras credenciais, portas etc.
+
+Esse é um README provisório. Será adicionado mais informações em breve.
